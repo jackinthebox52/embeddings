@@ -1,6 +1,6 @@
 # Text Embeddings CLI Tool
 
-Fast, multithreaded text embedding generator that follows Unix philosophy. Converts text to vector embeddings with guaranteed input order preservation. Supports multiple embedding methods optimized for different use cases.
+Fast, multithreaded text embedding generator that follows Unix philosophy. Supports multiple embedding methods optimized for different use cases.
 
 ## Features
 
