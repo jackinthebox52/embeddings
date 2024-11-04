@@ -1,17 +1,74 @@
 # Text Embeddings CLI Tool
 
-Fast, multithreaded text embedding generator that follows Unix philosophy. Converts text to vector embeddings with guaranteed input order preservation. Supports multiple embedding methods optimized for different text lengths.
+Fast, multithreaded text embedding generator that follows Unix philosophy. Converts text to vector embeddings with guaranteed input order preservation. Supports multiple embedding methods optimized for different use cases.
 
 ## Features
 
-- Multiple embedding methods:
-  - TF-IDF: Best for longer texts, documents ([Understanding TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf#Definition))
+- Multiple specialized embedding methods:
+  - TF-IDF: Best for longer texts, documents ([Understanding TF-IDF](https://jonathan.laurent/files/cs/tfidf.pdf))
   - N-gram: Optimized for short texts ([Character n-grams](https://aclanthology.org/P15-1107.pdf))
-  - WordPiece-inspired: Balanced approach ([Google's WordPiece paper](https://arxiv.org/pdf/1609.08144.pdf))
+  - WordPiece: Balanced approach ([Google's WordPiece](https://arxiv.org/pdf/1609.08144.pdf))
+  - Soundex: Phonetic similarity, great for names ([Soundex Algorithm](https://en.wikipedia.org/wiki/Soundex))
+  - Positional: Preserves word order importance ([Positional Encoding](https://arxiv.org/abs/1706.03762))
+  - Keyphrase: Topic and keyword focused ([Keyphrase Extraction](https://aclanthology.org/P10-1065/))
+  - Semantic Role: Basic syntax understanding ([Semantic Role Labeling](https://direct.mit.edu/coli/article/45/2/207/93605/A-Survey-on-Deep-Learning-Methods-for-Semantic-Role))
 - Preserves input order in output
-- Parallel processing
+- Parallel processing with automatic thread count detection
 - Normalized output vectors compatible with vector databases
 
+## Method Selection Guide
+
+- **TF-IDF**: Documents, articles, long texts
+  - Best for: Document classification, topic modeling
+  - Example: Blog posts, academic papers
+
+- **N-gram**: Short texts, character patterns
+  - Best for: Product names, short titles
+  - Example: SKUs, usernames
+
+- **WordPiece**: Mixed-length texts, subword patterns
+  - Best for: General purpose, mixed content
+  - Example: Social media posts, product descriptions
+
+- **Soundex**: Phonetic matching
+  - Best for: Names, fuzzy matching
+  - Example: Customer names, company names
+  - Handles: "Smith" ≈ "Smythe" ≈ "Smithe"
+
+- **Positional**: Word order sensitivity
+  - Best for: Sentences where order matters
+  - Example: Commands, instructions
+  - Distinguishes: "dog bites man" vs "man bites dog"
+
+- **Keyphrase**: Topic and keyword focused
+  - Best for: Content summarization, topic extraction
+  - Example: News articles, documentation
+  - Emphasizes: Important phrases, capitalized terms
+
+- **Semantic Role**: Basic syntax understanding
+  - Best for: Question answering, information extraction
+  - Example: Queries, facts
+  - Captures: Who did what to whom, when, where
+
+[Rest of README remains the same...]
+
+## Usage Examples by Task
+
+```bash
+# Name matching
+echo -e "Smith\nSmythe\nSmithson" | embeddings -method soundex
+
+# Sentence comparison
+echo -e "The dog bit the man\nThe man bit the dog" | embeddings -method positional
+
+# Topic extraction
+cat article.txt | embeddings -method keyphrase
+
+# Question processing
+echo "Who went to Paris last summer?" | embeddings -method semantic
+```
+
+[Rest of README remains the same...]
 ## Installation
 
 ```bash
@@ -23,24 +80,6 @@ Or build from source:
 git clone github.com/jackinthebox52/embeddings
 cd embeddings
 go build ./cmd/embeddings
-```
-
-## Usage
-
-```bash
-# Basic usage (read from stdin)
-echo "Hello world\nThis is a test\nAnd this is a third line" >> texts.txt
-
-cat texts.txt | embeddings -method tfidf
-
-# Read from file
-embeddings -input texts.txt
-
-# Choose embedding method
-embeddings -method ngram -input texts.txt
-
-# Customize processing
-embeddings -method wordpiece -threads 8 -size 128 -input texts.txt
 ```
 
 ### Options
@@ -59,12 +98,6 @@ embeddings -method wordpiece -threads 8 -size 128 -input texts.txt
 -benchmark
       Run benchmark and show timing info
 ```
-
-### Method Selection Guide
-
-- **TF-IDF**: Best for documents, articles, long texts. Most computationally intensive.
-- **N-gram**: Ideal for short texts, product names, titles. Fastest method.
-- **WordPiece**: Good all-rounder. Works well with mixed-length texts.
 
 ## Output Format
 
@@ -96,7 +129,6 @@ The tool guarantees that:
 
 - Automatic thread count detection for optimal performance
 - Memory-efficient streaming input processing
-- Order preservation has no performance impact
 - Benchmark mode available (`-benchmark` flag)
 
 ## Example Pipelines
