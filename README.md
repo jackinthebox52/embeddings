@@ -5,18 +5,18 @@ Fast, multithreaded text embedding generator that follows Unix philosophy. Suppo
 ## Features
 
 - Multiple specialized embedding methods:
-  - TF-IDF: Best for longer texts, documents ([Understanding TF-IDF](https://jonathan.laurent/files/cs/tfidf.pdf))
+  - TF-IDF: Best for longer texts, documents ([Understanding TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf))
   - N-gram: Optimized for short texts ([Character n-grams](https://aclanthology.org/P15-1107.pdf))
   - WordPiece: Balanced approach ([Google's WordPiece](https://arxiv.org/pdf/1609.08144.pdf))
   - Soundex: Phonetic similarity, great for names ([Soundex Algorithm](https://en.wikipedia.org/wiki/Soundex))
   - Positional: Preserves word order importance ([Positional Encoding](https://arxiv.org/abs/1706.03762))
   - Keyphrase: Topic and keyword focused ([Keyphrase Extraction](https://aclanthology.org/P10-1065/))
-  - Semantic Role: Basic syntax understanding ([Semantic Role Labeling](https://direct.mit.edu/coli/article/45/2/207/93605/A-Survey-on-Deep-Learning-Methods-for-Semantic-Role))
+  - Semantic Role: Basic syntax understanding ([Semantic Role Labeling](https://en.wikipedia.org/wiki/Semantic_role_labeling))
 - Preserves input order in output
 - Parallel processing with automatic thread count detection
 - Normalized output vectors compatible with vector databases
 
-## Method Selection Guide
+## Method Selection
 
 - **TF-IDF**: Documents, articles, long texts
   - Best for: Document classification, topic modeling
@@ -50,9 +50,8 @@ Fast, multithreaded text embedding generator that follows Unix philosophy. Suppo
   - Example: Queries, facts
   - Captures: Who did what to whom, when, where
 
-[Rest of README remains the same...]
 
-## Usage Examples by Task
+## Usage
 
 ```bash
 # Name matching
@@ -127,8 +126,6 @@ The tool guarantees that:
 
 ## Performance
 
-- Automatic thread count detection for optimal performance
-- Memory-efficient streaming input processing
 - Benchmark mode available (`-benchmark` flag)
 
 ## Example Pipelines
@@ -144,14 +141,6 @@ cat file1.txt file2.txt | embeddings -method wordpiece > combined_vectors.json
 cat corpus.txt | embeddings -method tfidf -benchmark
 cat corpus.txt | embeddings -method ngram -benchmark
 ```
-
-## Contributing
-
-Pull requests welcome! Please ensure you:
-1. Add tests for new features
-2. Run `go fmt` and `go vet`
-3. Verify tests pass: `go test ./...`
-4. Maintain input order guarantees
 
 ## License
 
