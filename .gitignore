@@ -1,3 +1,5 @@
 test-text/
 ./embeddings
 TODO
+code2prompt.md
+embedding_benchmark_*.json
