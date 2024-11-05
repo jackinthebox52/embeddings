@@ -6,6 +6,7 @@ import (
 	"os"
 	"runtime"
 	"sync"
+	"time"
 )
 
 // Document represents a text and its vector embedding
@@ -32,6 +33,11 @@ func Run() error {
 		return nil
 	}
 
+	timeStart := time.Time{}
+	if config.Benchmark {
+		timeStart = time.Now()
+	}
+
 	// Read input documents
 	documents, err := readDocuments(config)
 	if err != nil {
@@ -44,9 +50,19 @@ func Run() error {
 		return fmt.Errorf("processing documents: %w", err)
 	}
 
+	timeEnd := time.Time{}
+	if config.Benchmark {
+		timeEnd = time.Now()
+		fmt.Printf("Time: %s\n", timeEnd.Sub(timeStart))
+	}
+
 	// Output results
 	if err := writeResults(results); err != nil {
 		return fmt.Errorf("writing results: %w", err)
+	}
+
+	if config.Benchmark {
+		fmt.Printf("Total time: %s\n", timeEnd.Sub(timeStart))
 	}
 
 	return nil
